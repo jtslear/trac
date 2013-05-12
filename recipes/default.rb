@@ -50,7 +50,7 @@ template "trac-fcgi" do
 end
 
 execute "trac-environment" do
-  command "trac-admin #{node['trac']['basedir']}/environment initenv '#{node['trac'][:project_name]}' 'sqlite:db/trac.db' svn #{node['trac'][:svn_dir]}"
+  command "trac-admin #{node['trac']['basedir']}/environment initenv '#{node['trac']['project_name']}' 'sqlite:db/trac.db' svn #{node['trac']['svn_dir']}"
   only_if "/usr/bin/test ! -d #{node['trac']['basedir']}/environment"
 end
 
