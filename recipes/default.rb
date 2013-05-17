@@ -99,7 +99,7 @@ end
 apache_site "trac.conf"
 
 apache_site "default" do
-  action :disable
+  enable  false
 end
 
 # help keep the repo in sync
