@@ -55,20 +55,20 @@ execute "trac-environment" do
 end
 
 directory "#{node['trac']['basedir']}/environment" do
-  owner "www-data"
-  group "www-data"
+  owner node['apache']['user']
+  group node['apache']['group']
   recursive true
 end
 
 execute "trac-owner-change" do
-  command "chown -Rf www-data:www-data #{node['trac']['basedir']}/environment"
+  command "chown -Rf #{node['apache']['user']}:#{node['apache']['group']} #{node['trac']['basedir']}/environment"
 end
 
 template "trac-ini" do
   path "#{node['trac']['basedir']}/environment/conf/trac.ini"
   source "trac.ini.erb"
-  owner "www-data"
-  group "www-data"
+  owner node['apache']['user']
+  group node['apache']['group']
   mode 0775
   variables(
     :trac_project_desc => node['trac']['project_description'],
@@ -106,6 +106,6 @@ end
 cron "trac-sync" do
   minute "0"
   command "trac-admin #{node['trac']['basedir']}/environment resync"
-  user "www-data"
+  user node['apache']['user']
   only_if do ::File.exists?("#{node['trac']['basedir']}/environment") end
 end
